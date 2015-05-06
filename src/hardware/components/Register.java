@@ -1,74 +1,31 @@
 package hardware.components;
 
+import java.util.ArrayList;
+
 public class Register {
 	
-	private boolean[] current;
-	private boolean[] connected;
-	private boolean[] connectedNextCycle;
+	private boolean[] data;
 	private boolean enable;
-	private boolean clock;
-	private Register to;
+	private boolean[] inputBuffer;
+	private boolean[] outputBuffer;
+	private static ArrayList<Register> allRegisters = new ArrayList<Register>();
 	
 	public Register(int size) {
-		current = new boolean[size];
-		connected = new boolean[size];
-		connectedNextCycle = new boolean[size];
-		clock = false;
+		data = new boolean[size];
 		enable = false;
+		inputBuffer = new boolean[size];
+		outputBuffer = new boolean[size];
+		allRegisters.add(this);
 	}
 	
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
 	
-	public void flipClock() {
-		clock = !clock;
-		if(clock) {
-			if(to != null) {
-			to.connect(current);
-			}
-			loadIfEnable();
-			passConnected();
-		}
-	}
-	
-	private void passConnected() {
-		for(int i = 0; i < connected.length; i++) {
-			connected[i] = connectedNextCycle[i];
-		}
-	}
-	
-	private void loadIfEnable(){
-		if(enable) {
-			for(int i = 0; i < current.length; i++) {
-				current[i] = connected[i];
-			}
-		}
-	}
-	
-	public void connect(boolean[] newConnected) {
-		for(int i = 0; i < connectedNextCycle.length; i++) {
-			connectedNextCycle[i] = newConnected[i];
-		}
-	}
-	
-	public void connect(int newConnected) {
-		boolean[] newValue = new boolean[connectedNextCycle.length];
-		for(int i = 0; i < newValue.length; i++) {
-			if(newConnected%2 == 1) {
-				newValue[i] = true;
-			} else {
-				newValue[i] = false;
-			}
-			newConnected /= 2;
-		}
-		connectedNextCycle = newValue;
-	}
-	
 	public int getInt() {
 		int value = 0;
-		for(int i = 0; i < current.length; i++) {
-			if(current[i]) {
+		for(int i = 0; i < data.length; i++) {
+			if(data[i]) {
 				value += Math.pow(2, (double)i);
 			}
 		}
@@ -87,7 +44,7 @@ public class Register {
 				case 3:case 4:case 5:
 				case 6:case 7:case 8:
 				case 9:
-					value = current + value;break;
+					value = data + value;break;
 				case 10:
 					value = "A" + value;break;
 				case 11:
@@ -110,14 +67,65 @@ public class Register {
 	
 	public String getBits() {
 		String value = "";
-		for(int i = 0; i < current.length; i++) {
-			if(current[i]) {
+		for(int i = 0; i < data.length; i++) {
+			if(data[i]) {
 				value = "1" + value;
 			} else {
 				value = "0" + value;
 			}
 		}
 		return value;
+	}
+	
+	public void setInputBuffer(boolean[] input) {
+		inputBuffer = input;
+	}
+	
+	public void setInputBuffer(int value) {
+		boolean[] input = new boolean[inputBuffer.length];
+		for(int i = 0; i < input.length; i++) {
+			if(value%2 == 1) {
+				input[i] = true;
+			} else {
+				input[i] = false;
+			}
+			value /= 2;
+		}
+		inputBuffer = input;
+	}
+	
+	public boolean[] getOutputBuffer() {
+		return outputBuffer;
+	}
+	
+	public void updateOutputBuffer() {
+		for(int i = 0; i < outputBuffer.length; i++) {
+			outputBuffer[i] = data[i];
+		}
+	}
+	
+	public void clockCycle() {
+		if(enable) {
+			load();
+		}
+	}
+	
+	private void load() {
+		for(int i = 0; i < data.length; i++) {
+			data[i] = inputBuffer[i];
+		}
+	}
+	
+	public static void clockCycleAll() {
+		for(int i = 0; i < allRegisters.size(); i++) {
+			allRegisters.get(i).clockCycle();
+		}
+	}
+	
+	public static void updateAllOutputs() {
+		for(int i = 0; i < allRegisters.size(); i++) {
+			allRegisters.get(i).updateOutputBuffer();
+		}
 	}
 
 }

@@ -121,9 +121,10 @@ public class Register {
 		for(int i = 0; i < allRegisters.size(); i++) {
 			allRegisters.get(i).clockCycle();
 		}
+		updateAllOutputs();
 	}
 	
-	public static void updateAllOutputs() {
+	private static void updateAllOutputs() {
 		for(int i = 0; i < allRegisters.size(); i++) {
 			allRegisters.get(i).updateOutputBuffer();
 		}

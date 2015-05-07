@@ -105,16 +105,20 @@ public class Register {
 		}
 	}
 	
-	public void clockCycle() {
+	protected void clockCycle() {
 		if(enable) {
 			load();
 		}
 	}
 	
-	private void load() {
+	protected void load() {
 		for(int i = 0; i < data.length; i++) {
 			data[i] = inputBuffer[i];
 		}
+	}
+	
+	protected void setData(boolean[] newData) {
+		data = newData;
 	}
 	
 	public static void clockCycleAll() {

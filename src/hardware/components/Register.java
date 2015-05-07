@@ -39,12 +39,13 @@ public class Register {
 			value = "0";
 		} else {
 			while(n > 0) {
-				switch(n%16) {
+				int current = n % 16;
+				switch(current) {
 				case 0:case 1:case 2:
 				case 3:case 4:case 5:
 				case 6:case 7:case 8:
 				case 9:
-					value = data + value;break;
+					value = current + value;break;
 				case 10:
 					value = "A" + value;break;
 				case 11:

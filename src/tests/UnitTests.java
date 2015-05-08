@@ -1,8 +1,13 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import hardware.components.HLRegister;
+import hardware.components.Multiplexer;
 import hardware.components.Register;
+import hardware.exceptions.HardwareException;
 
 import org.junit.Test;
 
@@ -39,6 +44,36 @@ public class UnitTests {
 		r.setInputBuffer(14);
 		Register.clockCycleAll();
 		assertEquals(14, r.getInt());
+	}
+	
+	@Test
+	public void testMultiplexer() {
+		Register r1 = new Register(32);
+		Register r2 = new Register(32);
+		Register out = new Register(32);
+		out.setEnable(true);
+		r1.setInputBuffer(14);
+		r1.setEnable(true);
+		r2.setInputBuffer(62);
+		r2.setEnable(true);
+		Register.clockCycleAll();
+		r1.setEnable(false);
+		r2.setEnable(false);
+		ArrayList<Register> inputs = new ArrayList<Register>();
+		inputs.add(r1);
+		inputs.add(r2);
+		try {
+			Multiplexer mux = new Multiplexer(inputs);
+			mux.setOutTo(out);
+			mux.setSelect(0);
+			Register.clockCycleAll();
+			assertEquals(14, out.getInt());
+			mux.setSelect(1);
+			Register.clockCycleAll();
+			assertEquals(62, out.getInt());
+		} catch(HardwareException e) {
+			fail(e.getClass().toString() + ": " + e.getMessage());
+		}
 	}
 
 }

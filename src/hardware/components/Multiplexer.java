@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Multiplexer {
 	
 	private boolean[][] inputs;
-	private boolean[] outputBuffer;
+	private Register outTo;
 	private int select;
 	
 	public Multiplexer(ArrayList<boolean[]> inputsList) throws HardwareException {
@@ -36,7 +36,7 @@ public class Multiplexer {
 		if(select > inputs.length) {
 			throw new HardwareException("Multiplexer select out of bounds!");
 		}
-		outputBuffer = inputs[select];
+		outTo.setInputBuffer(inputs[select]);
 	}
 
 }

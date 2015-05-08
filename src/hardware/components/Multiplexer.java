@@ -38,5 +38,9 @@ public class Multiplexer {
 		}
 		outTo.setInputBuffer(inputs[select]);
 	}
+	
+	public void setOutTo(Register out) {
+		outTo = out;
+	}
 
 }

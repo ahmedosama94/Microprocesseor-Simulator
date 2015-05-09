@@ -1,6 +1,5 @@
-package hardware.components.units;
+package hardware.components;
 
-import hardware.components.Register;
 
 public class ALU {
 

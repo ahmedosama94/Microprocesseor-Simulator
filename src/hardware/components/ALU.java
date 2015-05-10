@@ -17,46 +17,21 @@ public class ALU  {
 	}
 
 	public void selectOp(){
-		if(!select[0]){
-			if(!select[1]){
-				if(!select[2]){
-					if(!select[3]){
 						//00000
 						operation =ALUopr.CLEAR;
-					}
-					else 
-					{	
 						//00010
 						operation =ALUopr.SUBBA;
-
-					}
-				}else{
-					if(!select[3]){
 						//00100
 						operation =ALUopr.SUBAB;
-
-					}else{
 						//00110
 						operation =ALUopr.ADDAB;
-					}
-
-				}
-			}else{
-				if(!select[2]){
-					if(!select[3]){
 						//01000
 						operation =ALUopr.IDB;
-					}
-					else 
-					{	//01010
+						//01010
 						operation =ALUopr.NOTB;
-					}
-				}else{
-					if(!select[3]){
-						//01101
 						//01100
 						operation =ALUopr.IDA;
-					}else{//01110
+						//01110
 						operation =ALUopr.NOTA;
 						//10001
 						operation =ALUopr.OR;

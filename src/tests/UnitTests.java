@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import hardware.components.ALU;
+import hardware.components.ALUopr;
 import hardware.components.HLRegister;
 import hardware.components.Multiplexer;
 import hardware.components.Register;
@@ -98,6 +100,33 @@ public class UnitTests {
 				assertEquals(number + i, result.getInt());
 			}
 		} catch(HardwareException e) {
+			fail(e.getClass().toString() + ": " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testALU() {
+		ALU alu = new ALU(32);
+		Register resultRegister = new Register(32);
+		resultRegister.setInputBuffer(13);
+		resultRegister.setEnable(true);
+		Register.clockCycleAll();
+		alu.setOutTo(resultRegister);
+		alu.getA().setInputBuffer(14);
+		alu.getB().setInputBuffer(51);
+		resultRegister.setEnable(false);
+		alu.getA().setEnable(true);
+		alu.getB().setEnable(true);
+		Register.clockCycleAll();
+		alu.getA().setEnable(false);
+		alu.getB().setEnable(false);
+		resultRegister.setEnable(true);
+		try{
+			alu.setSelect(ALUopr.CLEAR);
+			assertEquals(13, resultRegister.getInt());
+			Register.clockCycleAll();
+			assertEquals(0, resultRegister.getInt());
+		} catch(Exception e) {
 			fail(e.getClass().toString() + ": " + e.getMessage());
 		}
 	}

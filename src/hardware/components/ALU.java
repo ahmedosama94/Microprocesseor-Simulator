@@ -16,7 +16,11 @@ public class ALU  {
 		select = new boolean[4];
 		carry=false;
 	}
-
+	
+	public void setCarry(boolean newcarry) {
+		carry = newcarry;
+	}
+	
 	public void selectOp(){
 		int value = outTo.convertToInt(select);
 		switch(value){

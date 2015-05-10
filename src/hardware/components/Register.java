@@ -127,6 +127,19 @@ public class Register {
 		return value;
 	}
 	
+	public static boolean[] convertToBool(int value, int size) {
+		boolean[] output = new boolean[size];
+		for(int i = 0; i < output.length; i++) {
+			if(value%2 == 1) {
+				output[i] = true;
+			} else {
+				output[i] = false;
+			}
+			value /= 2;
+		}
+		return output;
+	}
+	
 	public static void clockCycleAll() {
 		for(int i = 0; i < allRegisters.size(); i++) {
 			allRegisters.get(i).clockCycle();

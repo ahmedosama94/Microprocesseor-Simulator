@@ -1,10 +1,11 @@
 package hardware.components;
 
 public enum ALUopr {
+	
 	CLEAR,
 	SUBBA,
 	SUBAB,
-	ADDAB,
+	ADD,
 	IDB,
 	IDA,
 	NOTB,
@@ -16,6 +17,5 @@ public enum ALUopr {
 	XOR,
 	EQ,
 	NAND,
-	
 
 }

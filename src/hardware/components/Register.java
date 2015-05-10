@@ -23,12 +23,7 @@ public class Register {
 	}
 	
 	public int getInt() {
-		int value = 0;
-		for(int i = 0; i < data.length; i++) {
-			if(data[i]) {
-				value += Math.pow(2, (double)i);
-			}
-		}
+		int value = Register.convertToInt(data);
 		return value;
 	}
 	
@@ -119,6 +114,16 @@ public class Register {
 	
 	protected void setData(boolean[] newData) {
 		data = newData;
+	}
+	
+	public static int convertToInt(boolean[] buffer) {
+		int value = 0;
+		for(int i = 0; i < buffer.length; i++) {
+			if(buffer[i]) {
+				value += Math.pow(2, (double)i);
+			}
+		}
+		return value;
 	}
 	
 	public static void clockCycleAll() {

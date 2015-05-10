@@ -17,5 +17,13 @@ public enum ALUopr {
 	XOR,
 	EQ,
 	NAND,
-
+	SET1,
+	SUBBADEC,
+	SUBABDEC,
+	ADDINC,
+	INCA,
+	INCB,
+	INCNOTA,
+	INCNOTB
+	
 }

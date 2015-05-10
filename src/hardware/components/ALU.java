@@ -20,26 +20,25 @@ public class ALU {
 		carry = newcarry;
 	}
 	
-
 	public void convertToOp() {
 		int value = Register.convertToInt(select);
 		switch(value) {
 		case 0:
-			operation = ALUopr.CLEAR;break;
+			operation= (!carry? ALUopr.SET1 : ALUopr.CLEAR);break;
 		case 1:
-			operation = ALUopr.SUBBA;break;
+			operation= (!carry? ALUopr.SUBBA : ALUopr.SUBBADEC);break;
 		case 2:
-			operation = ALUopr.SUBAB;break;
+			operation= (!carry? ALUopr.SUBAB : ALUopr.SUBABDEC);break;
 		case 3:
-			operation = ALUopr.ADD;break;
+			operation= (!carry? ALUopr.ADDINC : ALUopr.ADD);break;
 		case 4:
-			operation = ALUopr.IDB;break;
+			operation= (!carry? ALUopr.INCB : ALUopr.IDB);break;
 		case 5:
-			operation = ALUopr.NOTB;break;
+			operation= (!carry? ALUopr.INCNOTB : ALUopr.NOTB);break;
 		case 6:
-			operation = ALUopr.IDA;break;
+			operation= (!carry? ALUopr.INCA : ALUopr.IDA);break;
 		case 7:
-			operation = ALUopr.NOTA;break;
+			operation= (!carry? ALUopr.INCNOTA : ALUopr.NOTA);break;
 		case 8:
 			operation = ALUopr.OR;break;
 		case 9:
@@ -61,12 +60,12 @@ public class ALU {
 			if(carry) {
 				outTo.setInputBuffer(0);
 			} else {
-				outTo.setInputBuffer(1);
+				
+
 			}
 		}
 		if(operation == ALUopr.SUBAB) {
 			if(carry) {
-
 				outTo.setInputBuffer(a.getInt() - b.getInt());
 			} else {
 				outTo.setInputBuffer(a.getInt() - b.getInt() - 1);
@@ -167,6 +166,10 @@ public class ALU {
 			select = 12;break;
 		case AND:
 			select = 13;break;
+		case INCA:
+			select = 6; carry=true;
+		case INCB:
+			select = 4; carry=true;
 		default:
 			throw new HardwareException("No such Operation.");
 		}

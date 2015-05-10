@@ -17,51 +17,185 @@ public class ALU  {
 	}
 
 	public void selectOp(){
-		String instruction="";
-		for(int i=0;i<4;i++){
-			instruction += select[i];
-		}
-		if(instruction=="0000"){
-			operation=ALUopr.CLEAR;
-		}
-		if(instruction=="0001"){
-			operation=ALUopr.SUBBA;
-		}
-		if(instruction=="0010"){
-			operation=ALUopr.SUBAB;
-		}
-		if(instruction=="0011"){
-			operation=ALUopr.ADDAB;
-		}
-		if(instruction=="0100"){
-			operation=ALUopr.IDB;
-		}
-		if(instruction=="0101"){
-			operation=ALUopr.NOTB;
-		}
-		if(instruction=="0110"){
-			operation=ALUopr.IDA;
-		}
-		if(instruction=="0111"){
-			operation=ALUopr.NOTA;
-		}
-		if(instruction=="1000"){
-			operation=ALUopr.OR;
-		}
-		if(instruction=="1001"){
-			operation=ALUopr.XOR;
-		}
-		if(instruction=="1010"){
-			operation=ALUopr.EQ;
-		}
-		if(instruction=="1011"){
-			operation=ALUopr.NAND;
-		}
-		if(instruction=="1100"){
-			operation=ALUopr.ANORB;
-		}
-		if(instruction=="1101"){
-			operation=ALUopr.BNORA;
+		if(!select[0]){
+			if(!select[1]){
+				if(!select[2]){
+					if(!select[3]){
+						if(carry){
+							//00001
+							operation =ALUopr.SET1;
+						}
+						else{
+							//00000
+							operation =ALUopr.CLEAR;
+						}
+					}
+					else 
+					{	
+						if(carry){
+							//00011
+							operation =ALUopr.SUBBA;
+						}
+						else{
+							//00010
+							operation =ALUopr.SUBBADEC;
+						}
+					}
+				}else{
+					if(!select[3]){
+						//00101
+						if(carry){
+							operation =ALUopr.SUBABDEC;
+						}else{
+							//00100
+							operation =ALUopr.SUBAB;
+						}
+					}else{
+						if(carry){
+							//00111
+							operation =ALUopr.ADDAB;
+						}else{
+							//00110
+							operation =ALUopr.ADDINC;
+						}
+
+					}
+
+				}
+			}else{
+				if(!select[2]){
+					if(!select[3]){
+						if(carry){
+							//01001
+							operation =ALUopr.SET1;
+						}
+						else{
+							//01000
+							operation =ALUopr.CLEAR;
+						}
+					}
+					else 
+					{	
+						if(carry){
+							//01011
+							operation =ALUopr.SUBBA;
+						}
+						else{
+							//01010
+							operation =ALUopr.SUBBADEC;
+						}
+					}
+				}else{
+					if(!select[3]){
+						//01101
+						if(carry){
+							operation =ALUopr.SUBABDEC;
+						}else{
+							//01100
+							operation =ALUopr.SUBAB;
+						}
+					}else{
+						if(carry){
+							//01111
+							operation =ALUopr.ADDAB;
+						}else{
+							//01110
+							operation =ALUopr.ADDINC;
+						}
+
+					}
+				}
+			}
+		}else{
+			if(!select[1]){
+				if(!select[2]){
+					if(!select[3]){
+						if(carry){
+							//10001
+							operation =ALUopr.SET1;
+						}
+						else{
+							//10000
+							operation =ALUopr.CLEAR;
+						}
+					}
+					else 
+					{	
+						if(carry){
+							//10011
+							operation =ALUopr.SUBBA;
+						}
+						else{
+							//10010
+							operation =ALUopr.SUBBADEC;
+						}
+					}
+				}else{
+					if(!select[3]){
+						//10101
+						if(carry){
+							operation =ALUopr.SUBABDEC;
+						}else{
+							//10100
+							operation =ALUopr.SUBAB;
+						}
+					}else{
+						if(carry){
+							//10111
+							operation =ALUopr.ADDAB;
+						}else{
+							//10110
+							operation =ALUopr.ADDINC;
+						}
+
+					}
+
+				}
+			}else{
+				if(!select[2]){
+					if(!select[3]){
+						if(carry){
+							//11001
+							operation =ALUopr.SET1;
+						}
+						else{
+							//11000
+							operation =ALUopr.CLEAR;
+						}
+					}
+					else 
+					{	
+						if(carry){
+							//11011
+							operation =ALUopr.SUBBA;
+						}
+						else{
+							//11010
+							operation =ALUopr.SUBBADEC;
+						}
+					}
+				}else{
+					if(!select[3]){
+						//11101
+						if(carry){
+							operation =ALUopr.SUBABDEC;
+						}else{
+							//11100
+							operation =ALUopr.SUBAB;
+						}
+					}else{
+						if(carry){
+							//11111
+							operation =ALUopr.ADDAB;
+						}else{
+							//11110
+							operation =ALUopr.ADDINC;
+						}
+
+					}
+				}
+			
+			}
 		}
 	}
 

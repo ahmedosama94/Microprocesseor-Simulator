@@ -1,57 +1,115 @@
 package hardware.components;
 
+import java.util.ArrayList;
 
-public class ALU {
 
-	
-	
-	public boolean[] add (Register A , Register B){
-		int sum = A.getInt() + B.getInt();
-		return convertInt(sum);
+public class ALU  {
+
+	private Register outTo, a, b;
+	boolean[] select;
+	boolean carry;
+	ALUopr operation;
+	public ALU(int size){
+		a = new ALURegister(size,this);
+		b = new ALURegister(size,this);
+		select = new boolean[4];
+		carry=false;
 	}
-	
-	public boolean[] subtract (Register A , Register B) {
-		int subtraction = A.getInt() - B.getInt();
-		return convertInt(subtraction);
-	}
-	
-	public boolean[] AND (Register A , Register B) {
-		boolean[] result = new boolean[32];
-		for(int i=0;i<A.getOutputBuffer().length;i++){
-			result[i]=A.getOutputBuffer()[i] & B.getOutputBuffer()[i];
+
+	public void selectOp(){
+		String instruction="";
+		for(int i=0;i<4;i++){
+			instruction += select[i];
 		}
-		return result;
-	}
-	
-	public boolean[] OR (Register A , Register B) {
-		boolean[] result = new boolean[32];
-		for(int i=0;i<A.getOutputBuffer().length;i++){
-			result[i]=A.getOutputBuffer()[i] | B.getOutputBuffer()[i];
+		if(instruction=="0000"){
+			operation=ALUopr.CLEAR;
 		}
-		return result;
-	}
-	
-	public boolean[] NOT (Register A) {
-		boolean[] result = new boolean[32];
-		for(int i=0;i<A.getOutputBuffer().length;i++){
-			result[i]=!A.getOutputBuffer()[i];
+		if(instruction=="0001"){
+			operation=ALUopr.SUBBA;
 		}
-		return result;
+		if(instruction=="0010"){
+			operation=ALUopr.SUBAB;
+		}
+		if(instruction=="0011"){
+			operation=ALUopr.ADDAB;
+		}
+		if(instruction=="0100"){
+			operation=ALUopr.IDB;
+		}
+		if(instruction=="0101"){
+			operation=ALUopr.NOTB;
+		}
+		if(instruction=="0110"){
+			operation=ALUopr.IDA;
+		}
+		if(instruction=="0111"){
+			operation=ALUopr.NOTA;
+		}
+		if(instruction=="1000"){
+			operation=ALUopr.OR;
+		}
+		if(instruction=="1001"){
+			operation=ALUopr.XOR;
+		}
+		if(instruction=="1010"){
+			operation=ALUopr.EQ;
+		}
+		if(instruction=="1011"){
+			operation=ALUopr.NAND;
+		}
+		if(instruction=="1100"){
+			operation=ALUopr.ANORB;
+		}
+		if(instruction=="1101"){
+			operation=ALUopr.BNORA;
+		}
+	}
+
+	public int Add(){
+		return (a.getInt()+b.getInt());
+	}
+
+	public int sub(){
+		return (a.getInt()-b.getInt());
+	}
+
+	public void setOutTo(Register newOut){
+		outTo = newOut;
 	}
 	
-	public boolean[] convertInt(int x) {
-		boolean[] result = new boolean[32];
-		for(int i=0; x>0;i++){
-			if(x%2==0){
-				result[i]=false;
+	public int operation(){
+		int result=0;
+		if(carry){
+			if(operation==ALUopr.CLEAR){
+				return 0;
 			}
-			else{
-				result[i]=true;
+			if(operation==ALUopr.SUBAB){
+				return a.getInt()- b.getInt();
 			}
-			x/=2;
+			if(operation==ALUopr.SUBBA){
+				return b.getInt()- a.getInt();
+			}
+			if(operation==ALUopr.ADDAB){
+				return a.getInt()+ b.getInt();
+			}
+			if(operation==ALUopr.NOTA){
+				boolean[] not= new boolean[a.getOutputBuffer().length];
+				for(int i=0;i<a.getOutputBuffer().length;i++){
+					not[i] = !not[i];
+				}
+				for(int i = 0; i < not.length; i++) {
+					if(not[i]) {
+						result += Math.pow(2, (double)i);
+					}
+				}
+			}
 		}
 		return result;
 	}
-	
-	
+	public void update(){
+		
+	}
+
+
+
 }

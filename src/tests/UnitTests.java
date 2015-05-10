@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import hardware.components.HLRegister;
 import hardware.components.Multiplexer;
 import hardware.components.Register;
+import hardware.components.units.RegisterMemory;
 import hardware.exceptions.HardwareException;
 
 import org.junit.Test;
 
 public class UnitTests {
-	
+
 	@Test
 	public void testLoading() {
 		Register r = new Register(32);
@@ -21,7 +22,7 @@ public class UnitTests {
 		Register.clockCycleAll();
 		assertEquals(21, r.getInt());
 	}
-	
+
 	@Test
 	public void testPassingOfValues() {
 		Register r1 = new Register(32);
@@ -36,7 +37,7 @@ public class UnitTests {
 		assertEquals(r1.getBits(), r2.getBits());
 		assertEquals(r1.getHex(), r2.getHex());
 	}
-	
+
 	@Test
 	public void testHLRegisterLoading() {
 		HLRegister r = new HLRegister(16, 32);
@@ -45,7 +46,7 @@ public class UnitTests {
 		Register.clockCycleAll();
 		assertEquals(14, r.getInt());
 	}
-	
+
 	@Test
 	public void testMultiplexer() {
 		Register r1 = new Register(32);
@@ -71,6 +72,31 @@ public class UnitTests {
 			mux.setSelect(1);
 			Register.clockCycleAll();
 			assertEquals(62, out.getInt());
+		} catch(HardwareException e) {
+			fail(e.getClass().toString() + ": " + e.getMessage());
+		}
+	}
+
+	@Test
+	public void testRegisterMemory() {
+		try {
+			RegisterMemory rm = new RegisterMemory(32, 16);
+			int number = 34;
+			rm.setReadWrite(true);
+			for(int i = 0; i < rm.getNumberOfRegisters(); i++) {
+				rm.setInputBuffer(number + i);
+				rm.setSelect(i);
+				Register.clockCycleAll();
+			}
+			rm.setReadWrite(false);
+			Register result = new Register(32);
+			rm.setOutTo(result);
+			result.setEnable(true);
+			for(int i = 0; i < rm.getNumberOfRegisters(); i++) {
+				rm.setSelect(i);
+				Register.clockCycleAll();
+				assertEquals(number + i, result.getInt());
+			}
 		} catch(HardwareException e) {
 			fail(e.getClass().toString() + ": " + e.getMessage());
 		}

@@ -123,6 +123,7 @@ public class Register {
 				value += Math.pow(2, (double)i);
 			}
 		}
+		
 		return value;
 	}
 	

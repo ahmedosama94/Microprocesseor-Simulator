@@ -131,85 +131,84 @@ public class ALU  {
 						}
 					}
 				}else{
-					if(!select[3]){
-						//11101
-						return;
-					}
-
+					return;
 				}
+
 			}
-
-			//	public int Add(){
-			//		return (a.getInt()+b.getInt());
-			//	}
-			//
-			//	public int sub(){
-			//		return (a.getInt()-b.getInt());
-			//	}
-			//
-			//	public void setOutTo(Register newOut){
-			//		outTo = newOut;
-			//	}
-
-			public void operation(){
-				if(carry){
-					if(operation==ALUopr.CLEAR){
-						outTo.setInputBuffer(0);
-					}
-					if(operation==ALUopr.SUBAB){
-						outTo.setInputBuffer(a.getInt()- b.getInt());
-					}
-					if(operation==ALUopr.SUBBA){
-						outTo.setInputBuffer(b.getInt()- a.getInt());
-					}
-					if(operation==ALUopr.ADDAB){
-						outTo.setInputBuffer(a.getInt()+ b.getInt());
-					}
-					if(operation==ALUopr.NOTA){
-						boolean[] not= new boolean[a.getOutputBuffer().length];
-						for(int i=0;i<a.getOutputBuffer().length;i++){
-							not[i] = !not[i];
-						}
-						outTo.setInputBuffer(not);
-					}
-					if(operation==ALUopr.NOTB){
-						boolean[] not= new boolean[b.getOutputBuffer().length];
-						for(int i=0;i<b.getOutputBuffer().length;i++){
-							not[i] = !not[i];
-						}
-						outTo.setInputBuffer(not);
-					}
-					if(operation==ALUopr.IDA){
-						outTo.setInputBuffer(a.getInt());
-					}
-					if(operation==ALUopr.IDB){
-						outTo.setInputBuffer(b.getInt());
-					}
-				}else{
-					if(operation==ALUopr.CLEAR){
-						outTo.setInputBuffer(1);
-					}
-					if(operation==ALUopr.SUBAB){
-						outTo.setInputBuffer(a.getInt()- b.getInt()-1);
-					}
-					if(operation==ALUopr.SUBBA){
-						outTo.setInputBuffer(b.getInt()- a.getInt()-1);
-					}
-					if(operation==ALUopr.ADDAB){
-						outTo.setInputBuffer(a.getInt()+ b.getInt()+1);
-					}
-				}
-			}
-
-			public void setSelect(boolean[] newselect){
-				select =newselect;
-			}
-
-			public void update(){
-				selectOp();
-				operation();
-			}
-
-
-
 		}
+	}
+
+	//	public int Add(){
+	//		return (a.getInt()+b.getInt());
+	//	}
+	//
+	//	public int sub(){
+	//		return (a.getInt()-b.getInt());
+	//	}
+	//
+	//	public void setOutTo(Register newOut){
+	//		outTo = newOut;
+	//	}
+
+	public void operation(){
+		if(carry){
+			if(operation==ALUopr.CLEAR){
+				outTo.setInputBuffer(0);
+			}
+			if(operation==ALUopr.SUBAB){
+				outTo.setInputBuffer(a.getInt()- b.getInt());
+			}
+			if(operation==ALUopr.SUBBA){
+				outTo.setInputBuffer(b.getInt()- a.getInt());
+			}
+			if(operation==ALUopr.ADDAB){
+				outTo.setInputBuffer(a.getInt()+ b.getInt());
+			}
+			if(operation==ALUopr.NOTA){
+				boolean[] not= new boolean[a.getOutputBuffer().length];
+				for(int i=0;i<a.getOutputBuffer().length;i++){
+					not[i] = !not[i];
+				}
+				outTo.setInputBuffer(not);
+			}
+			if(operation==ALUopr.NOTB){
+				boolean[] not= new boolean[b.getOutputBuffer().length];
+				for(int i=0;i<b.getOutputBuffer().length;i++){
+					not[i] = !not[i];
+				}
+				outTo.setInputBuffer(not);
+			}
+			if(operation==ALUopr.IDA){
+				outTo.setInputBuffer(a.getInt());
+			}
+			if(operation==ALUopr.IDB){
+				outTo.setInputBuffer(b.getInt());
+			}
+		}else{
+			if(operation==ALUopr.CLEAR){
+				outTo.setInputBuffer(1);
+			}
+			if(operation==ALUopr.SUBAB){
+				outTo.setInputBuffer(a.getInt()- b.getInt()-1);
+			}
+			if(operation==ALUopr.SUBBA){
+				outTo.setInputBuffer(b.getInt()- a.getInt()-1);
+			}
+			if(operation==ALUopr.ADDAB){
+				outTo.setInputBuffer(a.getInt()+ b.getInt()+1);
+			}
+		}
+	}
+
+	public void setSelect(boolean[] newselect){
+		select =newselect;
+	}
+
+	public void update(){
+		selectOp();
+		operation();
+	}
+
+
+
+}

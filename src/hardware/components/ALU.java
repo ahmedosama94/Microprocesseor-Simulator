@@ -67,40 +67,40 @@ public class ALU  {
 					if(!select[3]){
 						if(carry){
 							//01001
-							operation =ALUopr.SET1;
+							operation =ALUopr.INCB;
 						}
 						else{
 							//01000
-							operation =ALUopr.CLEAR;
+							operation =ALUopr.IDB;
 						}
 					}
 					else 
 					{	
 						if(carry){
 							//01011
-							operation =ALUopr.SUBBA;
+							operation =ALUopr.INCNOTB;
 						}
 						else{
 							//01010
-							operation =ALUopr.SUBBADEC;
+							operation =ALUopr.NOTB;
 						}
 					}
 				}else{
 					if(!select[3]){
 						//01101
 						if(carry){
-							operation =ALUopr.SUBABDEC;
+							operation =ALUopr.INCA;
 						}else{
 							//01100
-							operation =ALUopr.SUBAB;
+							operation =ALUopr.IDA;
 						}
 					}else{
 						if(carry){
 							//01111
-							operation =ALUopr.ADDAB;
+							operation =ALUopr.INCNOTA;
 						}else{
 							//01110
-							operation =ALUopr.ADDINC;
+							operation =ALUopr.NOTA;
 						}
 
 					}
@@ -112,40 +112,40 @@ public class ALU  {
 					if(!select[3]){
 						if(carry){
 							//10001
-							operation =ALUopr.SET1;
+							operation =ALUopr.OR;
 						}
 						else{
 							//10000
-							operation =ALUopr.CLEAR;
+							return;
 						}
 					}
 					else 
 					{	
 						if(carry){
 							//10011
-							operation =ALUopr.SUBBA;
+							operation =ALUopr.XOR;
 						}
 						else{
 							//10010
-							operation =ALUopr.SUBBADEC;
+							return;
 						}
 					}
 				}else{
 					if(!select[3]){
 						//10101
 						if(carry){
-							operation =ALUopr.SUBABDEC;
+							operation =ALUopr.EQ;
 						}else{
 							//10100
-							operation =ALUopr.SUBAB;
+							return;
 						}
 					}else{
 						if(carry){
 							//10111
-							operation =ALUopr.ADDAB;
+							operation =ALUopr.ANORB;
 						}else{
 							//10110
-							operation =ALUopr.ADDINC;
+							return;
 						}
 
 					}
@@ -156,45 +156,33 @@ public class ALU  {
 					if(!select[3]){
 						if(carry){
 							//11001
-							operation =ALUopr.SET1;
+							operation =ALUopr.BNORA;
 						}
 						else{
-							//11000
-							operation =ALUopr.CLEAR;
+							return;
 						}
 					}
 					else 
 					{	
 						if(carry){
 							//11011
-							operation =ALUopr.SUBBA;
+							operation =ALUopr.AND;
 						}
 						else{
 							//11010
-							operation =ALUopr.SUBBADEC;
+							return;
 						}
 					}
 				}else{
 					if(!select[3]){
 						//11101
-						if(carry){
-							operation =ALUopr.SUBABDEC;
-						}else{
-							//11100
-							operation =ALUopr.SUBAB;
-						}
-					}else{
-						if(carry){
-							//11111
-							operation =ALUopr.ADDAB;
-						}else{
-							//11110
-							operation =ALUopr.ADDINC;
-						}
-
+						return;
+					}else
+					{	
+						return;
 					}
 				}
-			
+
 			}
 		}
 	}

@@ -49,7 +49,6 @@ public class ALU {
 			operation = ALUopr.AND;break;
 		}
 
-
 	}
 
 	public void update()  {
@@ -168,5 +167,5 @@ public class ALU {
 		}
 		setSelect(Register.convertToBool(select, this.select.length));
 	}
-
+	
 }

@@ -6,9 +6,10 @@ import java.util.ArrayList;
 public class ALU  {
 
 	private Register outTo, a, b;
-	boolean[] select;
-	boolean carry;
-	ALUopr operation;
+	private boolean[] select;
+	private boolean carry;
+	private ALUopr operation;
+	
 	public ALU(int size){
 		a = new ALURegister(size,this);
 		b = new ALURegister(size,this);
@@ -34,7 +35,7 @@ public class ALU  {
 		case 12:operation =ALUopr.BNORA;break;
 		case 13:operation =ALUopr.AND;break;
 		}
-		
+
 
 	}
 
@@ -43,7 +44,7 @@ public class ALU  {
 	}
 
 
-	public void operation(){
+	public void update(){
 		if(operation==ALUopr.CLEAR){
 			if(carry){
 				outTo.setInputBuffer(0);
@@ -112,11 +113,7 @@ public class ALU  {
 		select =newselect;
 	}
 
-	public void update(){
-		selectOp();
-		operation();
-	}
 
-	
+
 
 }

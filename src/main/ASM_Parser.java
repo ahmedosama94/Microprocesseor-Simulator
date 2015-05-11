@@ -1,10 +1,10 @@
 package main;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.Scanner;
 
 import hardware.components.Register;
 import hardware.components.units.MainMemory;
+import hardware.exceptions.HardwareException;
 
 public class ASM_Parser {
 	private String Instructions = "[ ,]+";
@@ -45,6 +45,22 @@ public class ASM_Parser {
 			x = x + tokens[1].trim();
 		}
 		opCode = opCode + x;
+		if(tokens[1].trim().charAt(0)=='$'){
+			x = x + tokens[1].substring(1).trim();
+			if(tokens[0].equalsIgnoreCase("MOV")){
+				opCode="0001";
+			}
+			if(tokens[0].equalsIgnoreCase("ADD")){
+				opCode="0011";
+			}
+			if(tokens[0].equalsIgnoreCase("JMP") && tokens[2]!=null){
+				opCode="0101";
+			}
+		}
+		else
+		{
+			x = x + tokens[2].trim();
+		}
 		x="";
 		x = x + tokens[2].substring(1).trim();
 		opCode = opCode + x;
@@ -66,9 +82,23 @@ public class ASM_Parser {
 
 	}
 
-	public void writeOPcodeToMem(int address){
-	
+	public boolean[] convertOP(){
+		boolean[] result = new boolean[opCode.length()];
+		for(int i=0;i<opCode.length();i++){
+			if(opCode.charAt(i)=='0'){
+				result[i] = false;
+			} 
+			else {
+				result[i] = true;
+			}
+		}
+		return result;
 	}
 
+	public void writeOPcodeToMem(int address) throws HardwareException{
+		memoryBlock.setAddress(address);
+		memoryBlock.setReadWrite(true);
+		memoryBlock.setInputBuffer(convertOP());
+	}
 
 }

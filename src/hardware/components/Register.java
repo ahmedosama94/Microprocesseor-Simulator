@@ -79,13 +79,27 @@ public class Register {
 
 	public void setInputBuffer(int value) {
 		boolean[] input = new boolean[inputBuffer.length];
+		boolean negative = false;
+		if(value < 0) {
+			negative = true;
+		}
 		for(int i = 0; i < input.length; i++) {
-			if(value%2 == 1) {
+			if(Math.abs(value)%2 == 1 ^ negative) {
 				input[i] = true;
 			} else {
 				input[i] = false;
 			}
 			value /= 2;
+		}
+		if(negative) {
+			for(int i = 0; i < input.length; i++) {
+				if(input[i]) {
+					input[i] = false;
+				} else {
+					input[i] = true;
+					break;
+				}
+			}
 		}
 		inputBuffer = input;
 	}
@@ -118,12 +132,31 @@ public class Register {
 
 	public static int convertToInt(boolean[] buffer) {
 		int value = 0;
+		for(int i = 0; i < buffer.length - 1; i++) {
+			if(!buffer[buffer.length - 1]) {
+				if(buffer[i]) {
+					value += Math.pow(2, (double)i);
+				}
+			} else {
+				if(!buffer[i]) {
+					value += Math.pow(2, (double)i);
+				}
+			}
+		}
+		if(buffer[buffer.length - 1]) {
+			value += 1;
+			value = -value;
+		}
+		return value;
+	}
+
+	public static int convertNormal(boolean[] buffer) {
+		int value = 0;
 		for(int i = 0; i < buffer.length; i++) {
 			if(buffer[i]) {
 				value += Math.pow(2, (double)i);
 			}
 		}
-
 		return value;
 	}
 
@@ -136,20 +169,6 @@ public class Register {
 				output[i] = false;
 			}
 			value /= 2;
-		}
-		return output;
-	}
-
-	public static boolean[] convertToBool(String value, int size ) {
-		boolean[] output =new boolean[size];
-		for(int i=0; i<size;i++){
-			if(value.charAt(i)=='0'){
-				output[i]=false;
-			}
-			else 
-			{
-				output[i]=true;
-			}
 		}
 		return output;
 	}

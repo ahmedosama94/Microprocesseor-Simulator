@@ -120,8 +120,13 @@ public class MainMemory {
 		int prg = Register.convertToInt(program);
 
 	}
-
-
-
+	
+	public void MicroProgram(int add) {
+		decode(memoryBlocks[add].getOutputBuffer());
+		
+	}
+	
+	
+	
 
 }

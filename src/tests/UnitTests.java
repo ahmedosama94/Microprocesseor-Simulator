@@ -9,6 +9,7 @@ import hardware.components.ALUopr;
 import hardware.components.HLRegister;
 import hardware.components.Multiplexer;
 import hardware.components.Register;
+import hardware.components.units.MainMemory;
 import hardware.components.units.RegisterMemory;
 import hardware.exceptions.HardwareException;
 
@@ -23,6 +24,9 @@ public class UnitTests {
 		r.setInputBuffer(21);
 		Register.clockCycleAll();
 		assertEquals(21, r.getInt());
+		r.setInputBuffer(-17);
+		Register.clockCycleAll();
+		assertEquals(-17, r.getInt());
 	}
 
 	@Test
@@ -112,7 +116,7 @@ public class UnitTests {
 		rr.setEnable(true);
 		Register.clockCycleAll();
 		alu.setOutTo(rr);
-		alu.getA().setInputBuffer(14);
+		alu.getA().setInputBuffer(-14);
 		alu.getB().setInputBuffer(51);
 		rr.setEnable(false);
 		alu.getA().setEnable(true);
@@ -123,7 +127,7 @@ public class UnitTests {
 		rr.setEnable(true);
 		Register a = alu.getA();
 		Register b = alu.getB();
-		try{
+		try {
 			alu.setSelect(ALUopr.A);
 			Register.clockCycleAll();
 			assertEquals("identity A", a.getInt(), rr.getInt());
@@ -183,7 +187,7 @@ public class UnitTests {
 			assertEquals("SUB_AB_DEC", a.getInt() - b.getInt() - 1, rr.getInt());
 			alu.setSelect(ALUopr.SUB_BA_DEC);
 			Register.clockCycleAll();
-			assertEquals("SUB_BA_DEC", a.getInt() - b.getInt() - 1, rr.getInt());
+			assertEquals("SUB_BA_DEC", b.getInt() - a.getInt() - 1, rr.getInt());
 			alu.setSelect(ALUopr.SUBAB);
 			Register.clockCycleAll();
 			assertEquals("SUBAB", a.getInt() - b.getInt(), rr.getInt());
@@ -194,6 +198,31 @@ public class UnitTests {
 			Register.clockCycleAll();
 			assertEquals("XOR", a.getInt() ^ b.getInt(), rr.getInt());
 		} catch(Exception e) {
+			fail(e.getClass().toString() + ": " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testMainMemory() {
+		try {
+			MainMemory mm = new MainMemory(1000, 16);
+			int number = 34;
+			mm.setReadWrite(true);
+			for(int i = 0; i < mm.getNumberOfBlocks(); i++) {
+				mm.setInputBuffer(number + i);
+				mm.setAddress(i);
+				Register.clockCycleAll();
+			}
+			mm.setReadWrite(false);
+			Register result = new Register(16);
+			mm.setOutTo(result);
+			result.setEnable(true);
+			for(int i = 0; i < mm.getNumberOfBlocks(); i++) {
+				mm.setAddress(i);
+				Register.clockCycleAll();
+				assertEquals(number + i, result.getInt());
+			}
+		} catch(HardwareException e) {
 			fail(e.getClass().toString() + ": " + e.getMessage());
 		}
 	}

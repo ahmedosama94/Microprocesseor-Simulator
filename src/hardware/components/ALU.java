@@ -21,7 +21,7 @@ public class ALU {
 	}
 
 	public void convertToOp() {
-		int value = Register.convertToInt(select);
+		int value = Register.convertNormal(select);
 		switch(value) {
 		case 0:
 			operation= (!carry? ALUopr.SET1 : ALUopr.CLEAR);break;
@@ -51,8 +51,10 @@ public class ALU {
 			operation = ALUopr.NOT_B_OR_A;break;
 		case 13:
 			operation = ALUopr.AND;break;
+		case 14:
+			operation = ALUopr.NAND;break;
 		}
-
+		update();
 	}
 
 	public void update()  {
@@ -81,18 +83,10 @@ public class ALU {
 			outTo.setInputBuffer(a.getInt() + b.getInt() + 1);
 		}
 		if(operation == ALUopr.NOTA) {
-			boolean[] not= new boolean[a.getOutputBuffer().length];
-			for(int i = 0; i < a.getOutputBuffer().length; i++){
-				not[i] = !not[i];
-			}
-			outTo.setInputBuffer(Register.convertToInt(not));
+			outTo.setInputBuffer(~a.getInt());
 		}
 		if(operation == ALUopr.NOTB) {
-			boolean[] not = new boolean[b.getOutputBuffer().length];
-			for(int i = 0; i < b.getOutputBuffer().length; i++) {
-				not[i] = !not[i];
-			}			
-			outTo.setInputBuffer(Register.convertToInt(not) + 1);
+			outTo.setInputBuffer(~b.getInt());
 		}
 		if(operation == ALUopr.A) {
 			outTo.setInputBuffer(a.getInt());
@@ -101,38 +95,37 @@ public class ALU {
 			outTo.setInputBuffer(b.getInt());
 		}
 		if(operation == ALUopr.AND) {
-			boolean[] anded = new boolean[b.getOutputBuffer().length];
-			for(int i=0; i<anded.length;i++) {
-				anded[i]=a.getOutputBuffer()[i]&b.getOutputBuffer()[i];
-			}
-			outTo.setInputBuffer(anded);
+			outTo.setInputBuffer(a.getInt() & b.getInt());
 		}
 		if(operation == ALUopr.OR) {
-			boolean[] ORed = new boolean[b.getOutputBuffer().length];
-			for(int i=0; i<ORed.length;i++){
-				ORed[i]=a.getOutputBuffer()[i] | b.getOutputBuffer()[i];
-			}
-			outTo.setInputBuffer(ORed);
+			outTo.setInputBuffer(a.getInt() | b.getInt());
 		}
 		if(operation == ALUopr.INCNOTA) {
-			boolean[] not= new boolean[a.getOutputBuffer().length];
-			for(int i = 0; i < a.getOutputBuffer().length; i++){
-				not[i] = !a.getOutputBuffer()[i];
-			}
-			outTo.setInputBuffer(Register.convertToInt(not)+1);
+			outTo.setInputBuffer(~a.getInt() + 1);
 		}
 		if(operation == ALUopr.INCNOTB) {
-			boolean[] not= new boolean[b.getOutputBuffer().length];
-			for(int i = 0; i < b.getOutputBuffer().length; i++){
-				not[i] = !b.getOutputBuffer()[i];
-			}
-			outTo.setInputBuffer(Register.convertToInt(not)+1);	
+			outTo.setInputBuffer(~b.getInt() + 1);	
 		}
 		if(operation == ALUopr.XOR) {
-			outTo.setInputBuffer(a.getInt()^b.getInt());
+			outTo.setInputBuffer(a.getInt() ^ b.getInt());
 		}
 		if(operation == ALUopr.EQ){
-			outTo.setInputBuffer(~(a.getInt()^b.getInt()));
+			outTo.setInputBuffer(~(a.getInt() ^ b.getInt()));
+		}
+		if(operation == ALUopr.INCA) {
+			outTo.setInputBuffer(a.getInt() + 1);
+		}
+		if(operation == ALUopr.INCB) {
+			outTo.setInputBuffer(b.getInt() + 1);
+		}
+		if(operation == ALUopr.NAND) {
+			outTo.setInputBuffer(~(a.getInt() & b.getInt()));
+		}
+		if(operation == ALUopr.NOT_A_OR_B) {
+			outTo.setInputBuffer(~a.getInt() | b.getInt());
+		}
+		if(operation == ALUopr.NOT_B_OR_A) {
+			outTo.setInputBuffer(a.getInt() | ~b.getInt());
 		}
 	}
 
@@ -201,6 +194,8 @@ public class ALU {
 			select = 12;break;
 		case AND:
 			select = 13;break;
+		case NAND:
+			select = 14;break;
 		default:
 			throw new HardwareException("No such Operation.");
 		}

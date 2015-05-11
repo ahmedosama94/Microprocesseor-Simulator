@@ -59,4 +59,6 @@ public class MainMemory {
 	public void setInputBuffer(boolean[] input) {
 		memoryBlocks[select].setInputBuffer(input);
 	}
+	
+
 }

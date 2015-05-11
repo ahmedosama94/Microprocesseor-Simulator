@@ -71,7 +71,7 @@ public class UnitTests {
 		inputs.add(r2);
 		try {
 			Multiplexer mux = new Multiplexer(inputs);
-			mux.setOutTo(out);
+			mux.addOutTo(out);
 			mux.setSelect(0);
 			Register.clockCycleAll();
 			assertEquals(14, out.getInt());

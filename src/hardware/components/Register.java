@@ -8,13 +8,18 @@ public class Register {
 	private boolean enable;
 	private boolean[] inputBuffer;
 	private boolean[] outputBuffer;
+	private ArrayList<boolean[]> extraBuffers;
+	private ArrayList<Integer> from;
 	private static ArrayList<Register> allRegisters = new ArrayList<Register>();
+	private static ArrayList<Register> buffers = new ArrayList<Register>();
 
 	public Register(int size) {
 		data = new boolean[size];
 		enable = false;
 		inputBuffer = new boolean[size];
 		outputBuffer = new boolean[size];
+		extraBuffers = new ArrayList<boolean[]>();
+		from = new ArrayList<Integer>();
 		allRegisters.add(this);
 	}
 
@@ -72,6 +77,10 @@ public class Register {
 		}
 		return value;
 	}
+	
+	public boolean[] getData() {
+		return data;
+	}
 
 	public void setInputBuffer(boolean[] input) {
 		inputBuffer = input;
@@ -112,6 +121,13 @@ public class Register {
 		for(int i = 0; i < outputBuffer.length; i++) {
 			outputBuffer[i] = data[i];
 		}
+		for(int i = 0; i < outputBuffer.length; i++) {
+			boolean[] current = extraBuffers.get(i);
+			int from = this.from.get(i).intValue();
+			for(int j = 0; j < current.length; j++) {
+				current[j] = outputBuffer[j + from];
+			}
+		}
 	}
 
 	protected void clockCycle() {
@@ -128,6 +144,18 @@ public class Register {
 
 	protected void setData(boolean[] newData) {
 		data = newData;
+	}
+	
+	public void addExtraBuffer(int from, int to) {
+		this.from.add(new Integer(from));
+		boolean[] newBuffer = new boolean[to - from + 1];
+		for(int i = 0; i < newBuffer.length; i++) {
+			newBuffer[i] = outputBuffer[from + i];
+		}
+	}
+	
+	public ArrayList<boolean[]> getExtraBuffers() {
+		return extraBuffers;
 	}
 
 	public static int convertToInt(boolean[] buffer) {
@@ -178,6 +206,14 @@ public class Register {
 			allRegisters.get(i).clockCycle();
 		}
 		updateAllOutputs();
+		for(int i = 0; i < buffers.size(); i++) {
+			buffers.get(i).clockCycle();
+		}
+		updateAllOutputs();
+	}
+	
+	public static void addToBuffers(Register buffer) {
+		buffers.add(buffer);
 	}
 
 	private static void updateAllOutputs() {

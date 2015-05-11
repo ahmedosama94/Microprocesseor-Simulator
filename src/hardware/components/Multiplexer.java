@@ -1,5 +1,6 @@
 package hardware.components;
 
+import hardware.components.units.RegisterMemory;
 import hardware.exceptions.HardwareException;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 public class Multiplexer {
 	
 	private boolean[][] inputs;
-	private Register outTo;
+	private ArrayList<Object> outTo;
 	private int select;
 	
 	public Multiplexer(ArrayList<Register> inputsList) throws HardwareException {
@@ -28,6 +29,7 @@ public class Multiplexer {
 		for(int i = 0; i < inputsList.size(); i++) {
 			inputs[i] = inputsList.get(i).getOutputBuffer();
 		}
+		outTo = new ArrayList<Object>();
 	}
 	
 	public void setSelect(boolean[] selectBits) throws HardwareException {
@@ -40,18 +42,34 @@ public class Multiplexer {
 		if(select >= inputs.length) {
 			throw new HardwareException("Multiplexer select out of bounds!");
 		}
-		outTo.setInputBuffer(inputs[select]);
+		for(int i = 0; i < outTo.size(); i++) {
+			if(outTo.get(i).getClass() == Register.class) {
+				((Register)outTo.get(i)).setInputBuffer(inputs[select]);
+			} else {
+				((RegisterMemory)outTo.get(i)).setInputBuffer(inputs[select]);
+			}
+		}
 	}
 	
 	public void setSelect(int select) throws HardwareException {
 		if(select >= inputs.length) {
 			throw new HardwareException("Multiplexer select out of bounds!");
 		}
-		outTo.setInputBuffer(inputs[select]);
+		for(int i = 0; i < outTo.size(); i++) {
+			if(outTo.get(i).getClass() == Register.class) {
+				((Register)outTo.get(i)).setInputBuffer(inputs[select]);
+			} else {
+				((RegisterMemory)outTo.get(i)).setInputBuffer(inputs[select]);
+			}
+		}
 	}
 	
-	public void setOutTo(Register out) {
-		outTo = out;
+	public void addOutTo(Register out) {
+		outTo.add(out);
+	}
+	
+	public void addOutTo(RegisterMemory out) {
+		outTo.add(out);
 	}
 
 }

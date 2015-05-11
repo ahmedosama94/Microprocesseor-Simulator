@@ -6,6 +6,7 @@ import hardware.components.units.ALUUnit;
 import hardware.components.units.AddressUnit;
 
 public class MicroProccessor {
+	
 	private boolean RSEL, Write, EB,
 		EA, EXT, EDH, EDL, DOH,
 		DOL, EIR, AOH, AOL, CAD,
@@ -34,17 +35,32 @@ public class MicroProccessor {
 		RSEL=true;
 		
 		Register.clockCycleAll();
-	
+		
+		RSEL=true;
+		EB=true;
+		
 	}
 	
 	public void ADDtomemory(){
-		EDL=true;
-		EDH=true;
+		ALU.setEDH(true);
+		Register.clockCycleAll();
+		ALU.setEDL(true);
+		Register.clockCycleAll();
+		ALU.setEnableA(true);
+		ALU.setALUOperation(ALUopr.A);
+		Register.clockCycleAll();
+		ALU.setEnableB(true);
+		Register.clockCycleAll();
+		ALU.setERR(true);
+		ALU.setALUOperation(ALUopr.ADD);
+	}
+	
+	public void MOV() {
 		
 	}
 	
 	public void setFlags() {
 		
 	}
-	
+
 }

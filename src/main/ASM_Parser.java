@@ -2,7 +2,6 @@ package main;
 
 import java.util.Scanner;
 
-import hardware.components.Register;
 import hardware.components.units.MainMemory;
 import hardware.exceptions.HardwareException;
 
@@ -10,7 +9,6 @@ public class ASM_Parser {
 	private String Instructions = "[ ,]+";
 	private String[] tokens = new String[3];
 	private String opCode;
-	private boolean addressed1 , addressed2;
 	private MainMemory memoryBlock;
 
 	public ASM_Parser(MainMemory mm) {

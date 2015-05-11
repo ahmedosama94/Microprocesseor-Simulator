@@ -115,10 +115,6 @@ public class MainMemory {
 				m++;
 			}
 		}
-		int src = Register.convertToInt(source);
-		int dest = Register.convertToInt(destination);
-		int prg = Register.convertToInt(program);
-
 	}
 
 

@@ -1,22 +1,25 @@
 package main;
 
-import hardware.components.ALU;
 import hardware.components.ALUopr;
 import hardware.components.Register;
 import hardware.components.units.ALUUnit;
 import hardware.components.units.AddressUnit;
-import hardware.components.units.RegisterMemory;
 
 public class MicroProccessor {
-	boolean RSEL,Write,EB,EA,EXT,EDH,EDL,DOH,DOL,EIR,AOH,AOL,CAD,ESP,EPC,EOAR,NAD,EAH,EAL,ERR;
-	ALUUnit alu;
-	AddressUnit addunit;
+	private boolean RSEL, Write, EB,
+		EA, EXT, EDH, EDL, DOH,
+		DOL, EIR, AOH, AOL, CAD,
+		ESP, EPC, EOAR, NAD, EAH,
+		EAL, ERR;
+	private ALUUnit ALU;
+	private AddressUnit addrUnit;
 	
-	public MicroProccessor(){
-		
+	public MicroProccessor() {
+		ALU = new ALUUnit();
+		addrUnit = new AddressUnit();
 	}
 	
-	public void ADD(){
+	public void ADD() {
 		RSEL=true;
 		EDH = true;
 		EDL =true;
@@ -24,7 +27,7 @@ public class MicroProccessor {
 	
 		Register.clockCycleAll();
 		
-		alu.getALU().setSelect(ALUopr.B);
+		ALU.getALU().setSelect(ALUopr.B);
 		ERR =true;
 		DOH=true;
 		DOL=true;
@@ -37,6 +40,10 @@ public class MicroProccessor {
 	public void ADDtomemory(){
 		EDL=true;
 		EDH=true;
+		
+	}
+	
+	public void setFlags() {
 		
 	}
 	

@@ -31,13 +31,30 @@ public class MicroProccessor {
 		RSEL=true;
 		
 		Register.clockCycleAll();
-	
+		
+		RSEL=true;
+		EB=true;
+		
 	}
 	
 	public void ADDtomemory(){
-		EDL=true;
-		EDH=true;
+		alu.setEDH(true);
+		Register.clockCycleAll();
+		alu.setEDL(true);
+		Register.clockCycleAll();
+		alu.setEnableA(true);
+		alu.setALUOperation(ALUopr.A);
+		Register.clockCycleAll();
+		alu.setEnableB(true);
+		Register.clockCycleAll();
+		alu.setERR(true);
+		alu.setALUOperation(ALUopr.ADD);
+	}
+	
+	public void MOV() {
 		
 	}
+	
+	
 	
 }

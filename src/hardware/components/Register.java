@@ -177,7 +177,7 @@ public class Register {
 		}
 		return value;
 	}
-	
+
 	public static int convertNormal(boolean[] buffer) {
 		int value = 0;
 		for(int i = 0; i < buffer.length; i++) {

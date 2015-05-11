@@ -9,6 +9,7 @@ public class MainMemory {
 	private boolean readWrite;
 	private Register outTo;
 	private int address ;
+	private int src , prg ,dest;
 
 	public MainMemory(int Memsize , int Regsize){
 		memoryBlocks = new Register[Memsize];
@@ -20,6 +21,24 @@ public class MainMemory {
 	public void setReadWrite(boolean readWrite) {
 		this.readWrite = readWrite;
 		memoryBlocks[address].setEnable(readWrite);
+	}
+
+	public void SetProAtt(int x, int y, int z) {
+		prg =x;
+		src=y;
+		dest=z;
+	}
+
+	public int GetProgAttrP() {
+		return prg;
+	}
+
+	public int GetProgAttrSrc() {
+		return src;
+	}
+
+	public int GetProgAttrDest() {
+		return dest;
 	}
 
 	public void setAddress(boolean[] address) throws HardwareException {
@@ -41,7 +60,7 @@ public class MainMemory {
 			outTo.setInputBuffer(memoryBlocks[value].getOutputBuffer());
 		}
 	}
-	
+
 	public void setAddress(int address) throws HardwareException {
 		if(address >= memoryBlocks.length) {
 			throw new HardwareException("Out of bounds select!");
@@ -66,15 +85,43 @@ public class MainMemory {
 			memoryBlocks[i].setInputBuffer(input);
 		}
 	}
-	
+
 	public void setInputBuffer(int value) {
 		for(int i = 0; i < memoryBlocks.length; i++) {
 			memoryBlocks[i].setInputBuffer(value);
 		}
 	}
-	
+
 	public int getNumberOfBlocks() {
 		return memoryBlocks.length;
 	}
-	
+
+	public void decode(boolean[] instruction){
+		boolean[] program = new boolean[4];
+		boolean[] destination = new boolean[6];
+		boolean[] source = new boolean[6];
+		int j =0;
+		int m=0;
+		for(int i=0;i<instruction.length;i++){
+			if(i<4){
+				program[i] =instruction[i];
+			}
+			else if(i<10){
+				source[j] =instruction[i];
+				j++;
+			}
+			else {
+				destination[m]=instruction[i];
+				m++;
+			}
+		}
+		int src = Register.convertToInt(source);
+		int dest = Register.convertToInt(destination);
+		int prg = Register.convertToInt(program);
+
+	}
+
+
+
+
 }

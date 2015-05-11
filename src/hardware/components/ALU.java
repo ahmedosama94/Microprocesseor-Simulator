@@ -1,7 +1,5 @@
 package hardware.components;
 
-import hardware.exceptions.HardwareException;
-
 public class ALU {
 
 	private Register outTo, a, b;
@@ -147,7 +145,7 @@ public class ALU {
 		convertToOp();
 	}
 
-	public void setSelect(ALUopr operation) throws HardwareException {
+	public void setSelect(ALUopr operation) {
 		int select = 0;
 		switch(operation) {
 		case SET1:
@@ -196,8 +194,6 @@ public class ALU {
 			select = 13;break;
 		case NAND:
 			select = 14;break;
-		default:
-			throw new HardwareException("No such Operation.");
 		}
 		setSelect(Register.convertToBool(select, this.select.length));
 	}

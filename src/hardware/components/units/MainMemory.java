@@ -11,12 +11,11 @@ public class MainMemory {
 	private int address ;
 
 	public MainMemory(int Memsize , int Regsize){
-		memoryBlocks =new Register[Memsize];
-		for(int i =0; i<Memsize;i++){
+		memoryBlocks = new Register[Memsize];
+		for(int i = 0; i < Memsize; i++){
 			memoryBlocks[i] = new Register(Regsize);
 		}
 	}
-
 
 	public void setReadWrite(boolean readWrite) {
 		this.readWrite = readWrite;

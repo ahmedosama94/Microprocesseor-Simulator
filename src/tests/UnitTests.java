@@ -205,7 +205,7 @@ public class UnitTests {
 	@Test
 	public void testMainMemory() {
 		try {
-			MainMemory mm = new MainMemory(1000, 16);
+			MainMemory mm = new MainMemory(200, 16);
 			int number = 34;
 			mm.setReadWrite(true);
 			for(int i = 0; i < mm.getNumberOfBlocks(); i++) {

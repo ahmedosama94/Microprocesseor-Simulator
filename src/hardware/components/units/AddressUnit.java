@@ -26,6 +26,8 @@ public class AddressUnit {
 		inputsList.add(OAR);
 		inputsList.add(SP);
 		PC.setInputBuffer(AHL.getOutputBuffer());
+		OAR.setInputBuffer(AHL.getOutputBuffer());
+		SP.setInputBuffer(AHL.getOutputBuffer());
 		try {
 			addressMux = new Multiplexer(inputsList);
 			Register temp = new Register(32);
@@ -67,6 +69,10 @@ public class AddressUnit {
 	
 	public void incPC() {
 		PC.setInputBuffer(PC.getInt() + 1);
+	}
+	
+	public void incOAR() {
+		OAR.setInputBuffer(OAR.getInt() + 1);
 	}
 	
 	public void setAddressInputBus(boolean[] input) {

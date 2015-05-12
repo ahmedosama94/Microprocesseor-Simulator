@@ -25,14 +25,14 @@ public class MicroProccessor {
 	}
 	
 	public void MOV$() throws HardwareException {
+		
 		MM.setAddress(addrUnit.getAddressOutputBus());
 		MM.setReadWrite(false);
 		ALU.setRSEL(false);
 		ALU.setRMWrite(false);
 		ALU.setEnableB(false);
 		ALU.setEnableA(false);
-		ALU.setALUSelect(0);
-		ALU.setALUCarry(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
 		ALU.setEXT(false);
 		ALU.setEDH(false);
 		ALU.setEDL(false);
@@ -45,29 +45,170 @@ public class MicroProccessor {
 		addrUnit.setEOAR(false);
 		addrUnit.setEPC(false);
 		addrUnit.setCAD(0);
-	}
-	
-	public void ADD() {
+		addrUnit.incPC();
 		
-		
-		
-	}
-	
-	public void ADDtomemory(){
-		ALU.setEDH(true);
 		Register.clockCycleAll();
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDH(false);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(true);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		addrUnit.incPC();
+		
+		Register.clockCycleAll();
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDH(false);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(true);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		addrUnit.incPC();
+		
+		Register.clockCycleAll();
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDH(false);
 		ALU.setEDL(true);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(1);
+		addrUnit.incOAR();
+		
 		Register.clockCycleAll();
-		ALU.setEnableA(true);
-		ALU.setALUOperation(ALUopr.A);
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDH(true);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		
 		Register.clockCycleAll();
-		ALU.setEnableB(true);
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(true);
+		ALU.setRMWrite(true);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(true);
+		ALU.setEDH(false);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		
 		Register.clockCycleAll();
-		ALU.setERR(true);
-		ALU.setALUOperation(ALUopr.ADD);
+		
 	}
 	
-	public void MOV() {
+	public void MOV() throws HardwareException {
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(true);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDH(false);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		
+		Register.clockCycleAll();
+		
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(true);
+		ALU.setRMWrite(true);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.B);
+		ALU.setEXT(false);
+		ALU.setEDH(false);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		
+		Register.clockCycleAll();
 		
 	}
 

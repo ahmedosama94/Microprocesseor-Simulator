@@ -22,6 +22,10 @@ public class AddressUnit {
 		OAR = new Register(32);
 		SP = new Register(32);
 		ArrayList<Register> inputsList = new ArrayList<Register>();
+		inputsList.add(PC);
+		inputsList.add(OAR);
+		inputsList.add(SP);
+		PC.setInputBuffer(AHL.getOutputBuffer());
 		try {
 			addressMux = new Multiplexer(inputsList);
 			Register temp = new Register(32);
@@ -51,6 +55,18 @@ public class AddressUnit {
 	
 	public void setEPC(boolean EPC) {
 		PC.setEnable(EPC);
+	}
+	
+	public void setCAD(boolean[] CAD) throws HardwareException {
+		addressMux.setSelect(CAD);
+	}
+	
+	public void setCAD(int CAD) throws HardwareException {
+		addressMux.setSelect(CAD);
+	}
+	
+	public void incPC() {
+		PC.setInputBuffer(PC.getInt() + 1);
 	}
 	
 	public void setAddressInputBus(boolean[] input) {

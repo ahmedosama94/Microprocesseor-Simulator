@@ -8,8 +8,7 @@ public class MainMemory {
 	private Register[] memoryBlocks;
 	private boolean readWrite;
 	private Register outTo;
-	private int address ;
-	private int src , prg ,dest;
+	private int address;
 
 	public MainMemory(int Memsize , int Regsize){
 		memoryBlocks = new Register[Memsize];
@@ -21,24 +20,6 @@ public class MainMemory {
 	public void setReadWrite(boolean readWrite) {
 		this.readWrite = readWrite;
 		memoryBlocks[address].setEnable(readWrite);
-	}
-
-	public void SetProAtt(int x, int y, int z) {
-		prg =x;
-		src=y;
-		dest=z;
-	}
-
-	public int GetProgAttrP() {
-		return prg;
-	}
-
-	public int GetProgAttrSrc() {
-		return src;
-	}
-
-	public int GetProgAttrDest() {
-		return dest;
 	}
 
 	public void setAddress(boolean[] address) throws HardwareException {
@@ -94,35 +75,6 @@ public class MainMemory {
 
 	public int getNumberOfBlocks() {
 		return memoryBlocks.length;
-	}
-
-	public void decode(boolean[] instruction){
-		boolean[] program = new boolean[4];
-		boolean[] destination = new boolean[6];
-		boolean[] source = new boolean[6];
-		int j =0;
-		int m=0;
-		for(int i=0;i<instruction.length;i++){
-			if(i<4){
-				program[i] =instruction[i];
-			}
-			else if(i<10){
-				source[j] =instruction[i];
-				j++;
-			}
-			else {
-				destination[m]=instruction[i];
-				m++;
-			}
-		}
-	}
-	
-	public void MicroProgram(int add) {
-		decode(memoryBlocks[add].getOutputBuffer());
-		
-	}
-	
-	
-	
+	}	
 
 }

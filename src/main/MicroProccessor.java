@@ -4,40 +4,52 @@ import hardware.components.ALUopr;
 import hardware.components.Register;
 import hardware.components.units.ALUUnit;
 import hardware.components.units.AddressUnit;
+import hardware.components.units.MainMemory;
+import hardware.exceptions.HardwareException;
 
 public class MicroProccessor {
 	
-	private boolean RSEL, Write, EB,
-		EA, EXT, EDH, EDL, DOH,
-		DOL, EIR, AOH, AOL, CAD,
-		ESP, EPC, EOAR, NAD, EAH,
-		EAL, ERR;
 	private ALUUnit ALU;
 	private AddressUnit addrUnit;
+	private MainMemory MM;
 	
 	public MicroProccessor() {
 		ALU = new ALUUnit();
 		addrUnit = new AddressUnit();
+		MM = new MainMemory(200, 16);
+		Register buffer = new Register(16);
+		Register.addToBuffers(buffer);
+		ALU.setDataInputBus(buffer.getOutputBuffer());
+		addrUnit.setAddressInputBus(buffer.getOutputBuffer());
+		MM.setInputBuffer(ALU.getDataOutputBus());
+	}
+	
+	public void MOV$() throws HardwareException {
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUSelect(0);
+		ALU.setALUCarry(false);
+		ALU.setEXT(false);
+		ALU.setEDH(false);
+		ALU.setEDL(false);
+		ALU.setDOH(false);
+		ALU.setDOL(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(true);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
 	}
 	
 	public void ADD() {
-		RSEL=true;
-		EDH = true;
-		EDL =true;
-		EB=true;
-	
-		Register.clockCycleAll();
 		
-		ALU.getALU().setSelect(ALUopr.B);
-		ERR =true;
-		DOH=true;
-		DOL=true;
-		RSEL=true;
 		
-		Register.clockCycleAll();
-		
-		RSEL=true;
-		EB=true;
 		
 	}
 	
@@ -56,10 +68,6 @@ public class MicroProccessor {
 	}
 	
 	public void MOV() {
-		
-	}
-	
-	public void setFlags() {
 		
 	}
 

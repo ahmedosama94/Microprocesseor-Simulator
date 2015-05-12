@@ -101,6 +101,10 @@ public class ALUUnit {
 	public void setALUSelect(boolean[] selects) {
 		ALU.setSelect(selects);
 	}
+
+	public void setALUSelect(int selects) {
+		ALU.setSelect(selects);
+	}
 	
 	public void setALUCarry(boolean carry) {
 		ALU.setCarry(carry);

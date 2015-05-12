@@ -3,14 +3,14 @@ package hardware.components;
 public class ALU {
 
 	private Register outTo, a, b;
-	private boolean[] select;
+	private int select;
 	private boolean carry;
 	private ALUopr operation;
 
 	public ALU(int size) {
 		a = new ALURegister(size, this);
 		b = new ALURegister(size, this);
-		select = new boolean[4];
+		select = 0;
 		carry=false;
 	}
 
@@ -19,7 +19,7 @@ public class ALU {
 	}
 
 	public void convertToOp() {
-		int value = Register.convertNormal(select);
+		int value = select;
 		switch(value) {
 		case 0:
 			operation= (!carry? ALUopr.SET1 : ALUopr.CLEAR);break;
@@ -141,7 +141,12 @@ public class ALU {
 	}
 
 	public void setSelect(boolean[] newselect){
-		select = newselect;
+		select = Register.convertNormal(newselect);
+		convertToOp();
+	}
+	
+	public void setSelect(int newSelect) {
+		select = newSelect;
 		convertToOp();
 	}
 
@@ -195,7 +200,7 @@ public class ALU {
 		case NAND:
 			select = 14;break;
 		}
-		setSelect(Register.convertToBool(select, this.select.length));
+		setSelect(select);
 	}
 
 }

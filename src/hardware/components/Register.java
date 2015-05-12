@@ -121,7 +121,7 @@ public class Register {
 		for(int i = 0; i < outputBuffer.length; i++) {
 			outputBuffer[i] = data[i];
 		}
-		for(int i = 0; i < outputBuffer.length; i++) {
+		for(int i = 0; i < extraBuffers.size(); i++) {
 			boolean[] current = extraBuffers.get(i);
 			int from = this.from.get(i).intValue();
 			for(int j = 0; j < current.length; j++) {

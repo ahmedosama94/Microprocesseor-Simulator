@@ -2,10 +2,9 @@ package main;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
 
+@SuppressWarnings("serial")
 public class GUI extends JFrame{
 	JComboBox<String> instruction;
 	JTextField operand1,operand2;
@@ -32,6 +31,6 @@ public class GUI extends JFrame{
 	
 	
 	public static void main(String[]args){
-		GUI x = new GUI();
+		new GUI();
 	}
 }

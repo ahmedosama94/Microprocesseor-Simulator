@@ -29,6 +29,10 @@ public class ALUUnit {
 		Register.addToBuffers(RMselect);
 		RR.addExtraBuffer(0, 15);
 		RR.addExtraBuffer(16, 31);
+		Register ALUBuffer = new Register(32);
+		Register.addToBuffers(ALUBuffer);
+		ALU.setOutTo(ALUBuffer);
+		RR.setInputBuffer(ALUBuffer.getOutputBuffer());
 		A = new Register(32);
 		B = new Register(32);
 		IR = new Register(32);
@@ -40,7 +44,7 @@ public class ALUUnit {
 		temp2.setInputBuffer(IR.getExtraBuffers().get(1));
 		ArrayList<Register> inputsList1 = new ArrayList<Register>();
 		ArrayList<Register> inputsList2 = new ArrayList<Register>();
-		inputsList1.add(RR);
+		inputsList1.add(ALUBuffer);
 		inputsList1.add(DHDL);
 		inputsList2.add(temp1);
 		inputsList2.add(temp2);
@@ -55,6 +59,7 @@ public class ALUUnit {
 			dataMux.addOutTo(RM);
 			IRMux = new Multiplexer(inputsList2);
 			IRMux.addOutTo(RMselect);
+			Register.addToBuffers(RMselect);
 		} catch(HardwareException e) {
 			System.err.println(e.getMessage());
 		}
@@ -84,6 +89,7 @@ public class ALUUnit {
 		} else {
 			IRMux.setSelect(1);
 		}
+		updateRMSelect();
 	}
 	
 	public void setRMWrite(boolean Write) {
@@ -99,6 +105,10 @@ public class ALUUnit {
 	}
 	
 	public void setALUSelect(boolean[] selects) {
+		ALU.setSelect(selects);
+	}
+
+	public void setALUSelect(int selects) {
 		ALU.setSelect(selects);
 	}
 	
@@ -188,6 +198,10 @@ public class ALUUnit {
 
 	public Register getRMselect() {
 		return RMselect;
+	}
+	
+	private void updateRMSelect() throws HardwareException {
+		RM.setSelect(RMselect.getInt());
 	}
 
 }

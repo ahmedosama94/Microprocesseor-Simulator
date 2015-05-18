@@ -391,5 +391,104 @@ public class MicroProccessor {
 		Register.clockCycleAll();
 		
 	}
+	
+	public void ADD() throws HardwareException {
+		
+	}
+	
+	public void JMPU() throws HardwareException {
+		
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDL(false);
+		ALU.setEDH(false);
+		ALU.setDOL(false);
+		ALU.setDOH(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		addrUnit.incPC();
+		
+		Register.clockCycleAll();
+		
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDL(false);
+		ALU.setEDH(false);
+		ALU.setDOL(false);
+		ALU.setDOH(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(true);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		addrUnit.incPC();
+		
+		Register.clockCycleAll();
+		
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDL(false);
+		ALU.setEDH(true);
+		ALU.setDOL(false);
+		ALU.setDOH(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(false);
+		addrUnit.setCAD(0);
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		addrUnit.incPC();
+		
+		Register.clockCycleAll();
+		
+		ALU.setRSEL(false);
+		ALU.setRMWrite(false);
+		ALU.setEnableB(false);
+		ALU.setEnableA(false);
+		ALU.setALUOperation(ALUopr.CLEAR);
+		ALU.setEXT(false);
+		ALU.setEDL(false);
+		ALU.setEDH(false);
+		ALU.setDOL(false);
+		ALU.setDOH(false);
+		ALU.setERR(false);
+		addrUnit.setEAL(false);
+		addrUnit.setEAH(false);
+		addrUnit.setESP(false);
+		addrUnit.setEOAR(false);
+		addrUnit.setEPC(true);
+		addrUnit.setCAD(0);
+		MM.setAddress(addrUnit.getAddressOutputBus());
+		MM.setReadWrite(false);
+		
+		Register.clockCycleAll();
+		
+	}
 
 }

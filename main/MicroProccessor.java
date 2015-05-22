@@ -220,5 +220,9 @@ public class MicroProccessor {
 		Register.clockCycleAll();
 		
 	}
+	
+	public void ADD$() throws HardwareException {
+		
+	}
 
 }

@@ -253,7 +253,7 @@ public class MicroProccessor {
 		addrUnit.incPC();
 		MM.setAddress(addrUnit.getAddressOutputBus());
 		MM.setReadWrite(false);
-	
+		
 		Register.clockCycleAll();
 		
 		ALU.setRSEL(false);

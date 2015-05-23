@@ -1,6 +1,11 @@
 package main;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import hardware.components.units.MainMemory;
 import hardware.exceptions.HardwareException;
@@ -11,16 +16,26 @@ public class ASM_Parser {
 	private String[] tokens = new String[3];
 	private String opCode;
 	private MainMemory memoryBlock;
-
+	private ArrayList<boolean[]> prog;
+	
 	public ASM_Parser(MainMemory mm) {
 		memoryBlock=mm;
 		opCode="";
 	}
 
-	public void getOperands(String Instruction){
+	public ArrayList<boolean[]> microprogram(File file) throws IOException , FileNotFoundException{
+		ArrayList<boolean[]> microprog = new ArrayList<boolean[]>();
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String line;
+		while ((line = br.readLine()) != null) {
+			microprog.add(getOperands(line));
+		}
+		br.close();
+		return microprog;
+	}
+	public boolean[] getOperands(String Instruction){
 		tokens = Instruction.split(Instructions);
-
-		OpCode(tokens[0].trim());
+		opCode= OpCode(tokens[0].trim());
 
 		String x ="";
 		if(tokens[1].trim().charAt(0)=='$'){
@@ -45,7 +60,8 @@ public class ASM_Parser {
 		{
 			x = x + convertRegtoString(tokens[2].trim());
 		}
-		opCode = opCode + x;
+		opCode= opCode+ x;
+		return convertOP();
 	}
 
 	public void print() {
@@ -53,6 +69,26 @@ public class ASM_Parser {
 		System.out.println(opCode);
 	}
 
+	public void print( File file) throws FileNotFoundException, IOException {
+		ArrayList<boolean[]> x = microprogram(file);
+		for(int i=0; i< x.size(); i++){
+			System.out.println(converttoString(x.get(i)));
+		}
+	}
+
+	private String converttoString(boolean[] bs) {
+		String x="";
+		for(int i=0; i< bs.length; i++){
+			if(bs[i]){
+				x+="1";
+			}
+			else{
+				x+="0";
+			}
+		}
+		return x;
+	}
+	
 	public boolean[] convertOP(){
 		boolean[] result = new boolean[opCode.length()];
 		for(int i=0;i<opCode.length();i++){
@@ -99,42 +135,22 @@ public class ASM_Parser {
 	public String OpCode(String instruction) {
 		String opCode ="";
 		switch(instruction.trim()) {
-		case "MOV" : opCode="0000";
-		case "ADD" : opCode="0010";
-		case "JMP" : opCode="0100";
+		case "MOV" : opCode="0000";break;
+		case "ADD" : opCode="0010";break;
+		case "JMP" : opCode="0100";break;
 		}
 		return opCode;
 	}
 
-	public static void main(String[]args) {
+	public static void main(String[]args) throws FileNotFoundException, IOException {
 		ASM_Parser x = new ASM_Parser(new MainMemory(32, 16));
-		Scanner input = new Scanner(System.in);
-		String in = input.nextLine();
-		x.getOperands(in);
-		input.close();
+//		Scanner input = new Scanner(System.in);
+//		String in = input.nextLine();
+//		x.getOperands(in);
+//		input.close();
+//
+		x.print(new File("prog.txt"));
 		x.print();
+
 	}
 }
-
-
-//if(tokens[0].equalsIgnoreCase("MOV")){
-//opCode="0001";
-//}
-//if(tokens[0].equalsIgnoreCase("ADD")){
-//opCode="0011";
-//}
-//if(tokens[0].equalsIgnoreCase("JMP") && tokens[2]!=null){
-//opCode="0101";
-//}    conditions is memory addressed
-
-
-//if(tokens[0].equalsIgnoreCase("MOV")){
-//opCode="0000";
-//}
-//if(tokens[0].equalsIgnoreCase("ADD")){
-//opCode="0010";
-//}
-//if(tokens[0].equalsIgnoreCase("JMP")){
-//opCode="0100";
-//}
-// replaced these with switch instead

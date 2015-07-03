@@ -231,7 +231,9 @@ public class MicroProccessor {
 		Register.clockCycleAll();
 
 		
-	}	public void ADD$() throws HardwareException {
+	}	
+
+	public void ADD$() throws HardwareException {
 		
 		ALU.setRSEL(false);
 		ALU.setRMWrite(false);
@@ -492,4 +494,6 @@ public class MicroProccessor {
 		
 	}
 
+	
+	
 }
